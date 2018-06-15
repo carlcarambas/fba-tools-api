@@ -162,6 +162,7 @@ module.exports = function(sequelize, DataTypes) {
       field: 'status'
     }
   }, {
+    timestamps: false,
     tableName: '_get_merchant_listings_all_data_'
   });
 };
