@@ -7,12 +7,13 @@ async function getAllMerchantData() {
         Promise.resolve()
             .then(() => {
                 return resolve(merchantData);
-            })
-            .then(() => {
-                return dbConnection.close().then(() => {
-                    console.log('database connection succesfully closed');
-                })
-            })
+            });
+
+            // .then(() => {
+            //     return dbConnection.close().then(() => {
+            //         console.log('database connection succesfully closed');
+            //     })
+            // })
     });
 }
 
