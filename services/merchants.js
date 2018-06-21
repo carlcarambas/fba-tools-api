@@ -1,19 +1,13 @@
-const dbConnection = require(`../database/db_connection`);
+const { sequelizeConnection } = require(`../database/db_connection`);
 const getMerchantListingsAllDataDao = require(`../daos/_get_merchant_listings_all_data_`);
 
 async function getAllMerchantData() {
-    const merchantData = await getMerchantListingsAllDataDao.getAllMerchantListingData(dbConnection);
+    const merchantData = await getMerchantListingsAllDataDao.getAllMerchantListingData(sequelizeConnection);
     return new Promise((resolve, reject) => {
         Promise.resolve()
             .then(() => {
                 return resolve(merchantData);
             });
-
-            // .then(() => {
-            //     return dbConnection.close().then(() => {
-            //         console.log('database connection succesfully closed');
-            //     })
-            // })
     });
 }
 

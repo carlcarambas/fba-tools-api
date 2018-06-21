@@ -1,5 +1,6 @@
 require('dotenv').config();
 const Sequelize = require('sequelize');
+const knex = require('knex');
 
 const host = process.env.DB_HOST;
 const database = process.env.DB_SCHEMA;
@@ -14,11 +15,29 @@ const pool = {
     idle: 10000
 };
 
-const connection = new Sequelize(database, user, password, {
+const sequelizeConnection = new Sequelize(database, user, password, {
     host: host,
     pool: pool,
     port: port,
-    dialect: dialect,  
+    dialect: dialect,
 });
 
-module.exports = connection;
+const knexConnection = knex({
+    client: dialect,
+    connection: {
+        host: host,
+        port: port,
+        user: user,
+        password: password,
+        database: database
+    }
+});
+
+/**
+ * TEST CONNECTION. CREATE QUERY ONLY DAO
+ */
+
+module.exports = {
+    sequelizeConnection,
+    knexConnection
+};

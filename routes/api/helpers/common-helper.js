@@ -11,6 +11,7 @@ const serviceHandler = (promise, params) => async (req, res, next) => {
         const result = await promise(...boundParams);
         return res.json(result || { message: 'Success' });
     } catch (error) {
+        console.log(error);
         return res.status(500).json(error);
     }
 };
