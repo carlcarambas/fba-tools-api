@@ -33,11 +33,16 @@ const knexConnection = knex({
     }
 });
 
-/**
- * TEST CONNECTION. CREATE QUERY ONLY DAO
- */
+const getDatabaseConfig = request => {
+    const map = {
+        'database' : database
+    }
+
+    return map[request];
+}
 
 module.exports = {
     sequelizeConnection,
-    knexConnection
+    knexConnection,
+    getDatabaseConfig,
 };
