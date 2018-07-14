@@ -34,8 +34,13 @@ const getListOfTables = function (knex, database){
     return knex.raw(query, [database]);
 }
 
+const selectView = function (knex, view) {
+    return knex.select().table(view);
+}
+
 module.exports = {
     runRawQuery,
     runRawQuerySequelize,
     getListOfTables,
+    selectView
 };

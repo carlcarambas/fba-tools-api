@@ -48,11 +48,29 @@ async function getListOfTables(){
                 })
                 .catch(reject)
 
-    })
+    });
+}
+
+/**
+ * 
+ * @param {*} view 
+ * @param {*} params 
+ */
+async function runRawSelectViewTable(view, params){
+    const viewData = await rawQueryRunnerDao.selectView(knexConnection, view);
+
+    return new Promise((resolve, reject) => {
+        return Promise.resolve()
+                .then(() => {
+                    return resolve(viewData)
+                })
+                .catch(reject)
+    });
 }
 
 module.exports = {
     runRawQuery,
     runRawQuerySequelize,
     getListOfTables,
+    runRawSelectViewTable,
 }
