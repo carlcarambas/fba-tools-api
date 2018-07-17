@@ -4,6 +4,7 @@ const knex = require('knex');
 
 const host = process.env.DB_HOST;
 const database = process.env.DB_SCHEMA;
+const account_database = process.env.DB_SCHEMA_ACCOUNT;
 const user = process.env.DB_USER;
 const password = process.env.DB_PASS;
 const port = process.env.DB_PORT;
@@ -33,6 +34,17 @@ const knexConnection = knex({
     }
 });
 
+const knexConnectionAccount = knex({
+    client: dialect,
+    connection: {
+        host: host,
+        port: port,
+        user: user,
+        password: password,
+        database: account_database
+    }
+});
+
 const getDatabaseConfig = request => {
     const map = {
         'database' : database
@@ -44,5 +56,6 @@ const getDatabaseConfig = request => {
 module.exports = {
     sequelizeConnection,
     knexConnection,
+    knexConnectionAccount,
     getDatabaseConfig,
 };

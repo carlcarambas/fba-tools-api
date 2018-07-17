@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-const { knexConnection } = require(`../database/db_connection`);
+const { knexConnectionAccount } = require(`../database/db_connection`);
 const { isEmailValid, 
         encryptPassword, 
         validatePassword, } = require(`./helpers/validation-helper`);
@@ -30,7 +30,7 @@ function insertAccount(email, password, merchantId) {
                 merchantid: merchantId,
             }
 
-            const accountId = await accountsDao.insertAccount(knexConnection, userAccount);
+            const accountId = await accountsDao.insertAccount(knexConnectionAccount, userAccount);
 
             return resolve(accountId);
 
@@ -50,7 +50,7 @@ function insertAccount(email, password, merchantId) {
 function validateLogin(email, password){
     return new Promise(async (resolve, reject) => {
         try {
-            const [userAccount] = await accountsDao.getAccountByEmailAddress(knexConnection, email);
+            const [userAccount] = await accountsDao.getAccountByEmailAddress(knexConnectionAccount, email);
             const result = await validatePassword(password, userAccount.password);
 
             /**
