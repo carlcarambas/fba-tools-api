@@ -3,6 +3,7 @@ const serviceHandler = require(`${__dirname}/helpers/common-helper`).serviceHand
 
 const merchantService = require(`../../services/merchants`);
 
-router.get('/', serviceHandler(merchantService.getAllMerchantData));
+router.get('/all-data', serviceHandler(merchantService.getAllMerchantData));
+router.get('/', serviceHandler(merchantService.getMerchants));
 
 module.exports = router;
