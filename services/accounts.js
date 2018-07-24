@@ -1,10 +1,9 @@
-const bcrypt = require('bcrypt');
 const { knexConnectionAccount } = require(`../database/db_connection`);
-const { isEmailValid, 
-        encryptPassword, 
-        validatePassword, } = require(`./helpers/validation-helper`);
+const { isEmailValid, encryptPassword, validatePassword, } = require(`./helpers/validation-helper`);
 
 const accountsDao = require(`../daos/accounts`);
+
+const authenticationHelper = require('./helpers/authentication-helper');
 
 /**
  * 
@@ -68,7 +67,23 @@ function validateLogin(email, password){
     });
 }
 
+function validateToken(tokenBody){
+    return new Promise(async (resolve, reject) => {
+        try {
+            let token = await authenticationHelper.createToken(tokenBody);
+            let decodedToken = await authenticationHelper.decodeToken(token);
+            return resolve({
+                token,
+                decodedToken
+            });
+        } catch (error) {
+            return reject(error);            
+        }
+    });
+}
+
 module.exports = {
     insertAccount,
-    validateLogin
+    validateLogin,
+    validateToken,
 };
