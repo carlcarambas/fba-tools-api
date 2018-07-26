@@ -1,4 +1,4 @@
-const { knexConnectionAccount } = require(`../database/db_connection`);
+const { knexConnectionAccount, knexConnection } = require('../database/db_connection');
 const { isEmailValid, encryptPassword, validatePassword, } = require(`./helpers/validation-helper`);
 
 const accountsDao = require(`../daos/accounts`);
@@ -57,7 +57,14 @@ function validateLogin(email, password){
              */
 
             if(result) {
-                return resolve(result);
+                const tokenBody = {
+                    id: userAccount.id,
+                    merchantId: userAccount.merchantid,
+                };
+                const token = await authenticationHelper.createToken(tokenBody);
+                const response = { token };
+
+                return resolve(response);
             } else {
                 return reject(result);
             }
