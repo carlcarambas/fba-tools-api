@@ -1,6 +1,7 @@
 require('dotenv').config();
 
 const jwt = require('jsonwebtoken');
+const expressJwt = require('express-jwt');
 const envSecret = process.env.JWT_SECRET;
 
 /**
@@ -33,6 +34,11 @@ const createToken = (tokenData, expiry = 86400, secret = envSecret) => {
     })
 };
 
+/**
+ * 
+ * @param {*} token 
+ * @param {*} secret 
+ */
 const decodeToken = (token, secret = envSecret) => {
     return new Promise((resolve, reject) => {
         if(!token){
@@ -53,7 +59,23 @@ const decodeToken = (token, secret = envSecret) => {
     })
 };
 
+/**
+ * @desc https://github.com/auth0/express-jwt
+ * @param {*} options 
+ */
+const getJwtMiddleware = options => {
+    let middlewareOptions = { secret : envSecret };
+
+    if (options){
+        middlewareOptions = options;
+        middlewareOptions.secret = middlewareOptions.secret ? middlewareOptions.secret : envSecret;
+    }
+
+    return expressJwt(middlewareOptions);
+}
+
 module.exports = {
     createToken,
     decodeToken,
+    getJwtMiddleware,
 }
