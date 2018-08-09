@@ -51,9 +51,28 @@ const selectView = function (knex, view) {
         });
 }
 
+/**
+ * 
+ * @param {*} knex 
+ * @param {*} table 
+ */
+const selectTable = function (knex, table) {
+    //temporary limit to 100
+    const query = `SELECT * FROM ?? LIMIT 100`;
+    const parameters = [table];
+
+    return knex.raw(query, parameters).
+        then(data => {
+            let res = JSON.stringify(data);
+            let temp = JSON.parse(res);
+            return Promise.resolve(temp);
+        });
+}
+
 module.exports = {
     runRawQuery,
     runRawQuerySequelize,
     getListOfTables,
-    selectView
+    selectView,
+    selectTable
 };
